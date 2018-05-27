@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j"> 
+
+<h:head>
+<title>ATB Squad Maker</title>
+    <link href="css/site.css" rel="stylesheet" />
+</h:head> 
+<body>
+    <div class="main-container">
+        <div class="button">
+            <a4j:outputPanel id="main">
+	            <a4j:commandButton value="Test a4j button" onclick="alert('test');" />
+	        </a4j:outputPanel>
+        </div>
+        <div class="content-body">
+            <div class="success-text">Success!</div>
+            <div class="description line-1"> Azure DevOps Project has been successfully setup</div>
+            <div class="description line-2"> <h:outputText value = "#{squadMaker.message}" /></div>
+        </div>
+    </div>
+</body> 
+</html>

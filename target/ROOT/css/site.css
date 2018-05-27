@@ -1,0 +1,32 @@
+ html,
+        body {
+            height: 100%;
+            width: 100%;
+            padding: 20px;
+            margin: 5px;
+        }
+        @font-face{
+            font-family: "Segoe UI";
+            src: url('../fonts/segoeuil.ttf');
+        }
+        .main-container {
+            height: 100%;
+            width: 100%;
+            background-color: white;
+            color: black;
+            padding-top: 6%;
+            box-sizing: border-box;
+            overflow-y: auto;
+            overflow-x: hidden;
+            font-family: "Segoe UI";
+        }
+
+        .content-body{
+            min-width: 400px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container{
+                padding-top: 1%;
+            }
+        }
