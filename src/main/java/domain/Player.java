@@ -1,10 +1,11 @@
 package domain;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Player object.
- * Includes comparable implementation to allow default sort based on name.
+ * Player object. Includes comparable implementation to allow default sort based
+ * on name.
  * 
  */
 public class Player implements Comparable<Object> {
@@ -17,10 +18,15 @@ public class Player implements Comparable<Object> {
 	private Integer skating;
 	private Integer checking;
 
+	// Transient standardized skill values
+	private BigDecimal standardizedShooting = BigDecimal.ZERO;
+	private BigDecimal standardizedSkating = BigDecimal.ZERO;
+	private BigDecimal standardizedChecking = BigDecimal.ZERO;
+
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
-	
+
 	/**
 	 * @return Shooting skill rating
 	 */
@@ -53,7 +59,7 @@ public class Player implements Comparable<Object> {
 
 	/**
 	 * Gets a player's skill rating for a given skill.
-	 * @param skillType - A Player skill
+	 * @param skillType - a Player skill
 	 * @return Integer - Skill rating
 	 */
 	public Integer getSkillRating(SkillType skillType) {
@@ -65,8 +71,8 @@ public class Player implements Comparable<Object> {
 		return 0;
 	}
 
-	public Integer getTotalRating() {
-		return getShooting() + getSkating() + getChecking();
+	public BigDecimal getTotalRating() {
+		return standardizedShooting.add(standardizedSkating).add(standardizedChecking);
 	}
 
 	public String getFirstName() {
@@ -91,6 +97,30 @@ public class Player implements Comparable<Object> {
 
 	public void setSkills(List<Skill> skills) {
 		this.skills = skills;
+	}
+
+	public BigDecimal getStandardizedShooting() {
+		return standardizedShooting;
+	}
+
+	public void setStandardizedShooting(BigDecimal standardizedShooting) {
+		this.standardizedShooting = standardizedShooting;
+	}
+
+	public BigDecimal getStandardizedSkating() {
+		return standardizedSkating;
+	}
+
+	public void setStandardizedSkating(BigDecimal standardizedSkating) {
+		this.standardizedSkating = standardizedSkating;
+	}
+
+	public BigDecimal getStandardizedChecking() {
+		return standardizedChecking;
+	}
+
+	public void setStandardizedChecking(BigDecimal standardizedChecking) {
+		this.standardizedChecking = standardizedChecking;
 	}
 
 	@Override

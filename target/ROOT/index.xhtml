@@ -10,22 +10,25 @@
     <title>ATB Squad Maker</title>
     <h:outputStylesheet library="css" name="site.css"/>
 </h:head> 
-<body>
+<h:body>
+    <h1>ATB Squad Maker</h1>
+    <h2><i>Jose Gonzalez</i></h2>
+    <a href="mailto:only1gonzalez@gmail.com">only1gonzalez@gmail.com</a>
     <h:form>
-        <a4j:outputPanel id="messages">
+        <a4j:outputPanel id="messages" layout="block" style="padding-top:10px">
             <rich:message for="numberOfSquads"/>
         </a4j:outputPanel>
-        <a4j:outputPanel id="main">
+        <a4j:outputPanel id="main" layout="block">
             <table>
                 <tbody>
-                    <a4j:outputPanel id="main_waitlist" rendered="#{!squadMaker.waitingListEmpty}">
-	                    <tr>
-	                        <th align="left">Waiting List</th>
-	                    </tr>
-	                    <tr>
-	                        <td colspan="4">
-	                            <rich:dataTable value="#{squadMaker.league.players}" var="player" id="waitlist_table" rowClasses="odd-row, even-row" rows="10">
-	                                <rich:column>
+                    <tr>
+                        <th align="left">Waiting List</th>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <a4j:outputPanel id="waitlist" layout="block" rendered="#{!squadMaker.waitingListEmpty}" styleClass="waitlist">
+	                            <rich:dataTable id="waitlist_table" rowClasses="odd-row, even-row" rows="10" value="#{squadMaker.league.players}" var="player">
+	                                <rich:column styleClass="name-column">
 	                                    <f:facet name="header">
 	                                        Player
 	                                    </f:facet>
@@ -51,9 +54,12 @@
 	                                </rich:column>
 	                            </rich:dataTable>
 	                            <rich:dataScroller for="waitlist_table" fastControls="hide" renderIfSinglePage="false"/>
-	                        </td>
-	                    </tr>
-                    </a4j:outputPanel>
+                            </a4j:outputPanel>
+                            <a4j:outputPanel id="waitlist_empty" layout="block" rendered="#{squadMaker.waitingListEmpty}" styleClass="waitlist">
+                                <h:outputText value="All players have been assigned" />
+                            </a4j:outputPanel>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <h:outputLabel for="numberOfSquads" style="margin-right: 5px;" value="Number of Squads:" />
@@ -62,32 +68,29 @@
                                 <rich:validator/>
                             </h:inputText>
                         </td>
-                        <td>
-                            <a4j:commandButton action="#{squadMaker.createSquads}" disabled="#{squadMaker.inputDisabled}" render="main" value="Create Squads" />
-                        </td>
-                        <td>
-                            <a4j:commandButton action="#{squadMaker.reset}" immediate="true" render="main,messages" value="Reset" />
-                        </td>
-                    </tr>
-                    <tr/>
-                    <tr>
-                        <a4j:outputPanel id="main_SquadHeader" rendered="#{squadMaker.inputDisabled}">
-                            <th align="left">Squads</th>
-                        </a4j:outputPanel>
                     </tr>
                     <tr>
-                        <td colspan="4">
-                            <h:panelGrid columns="1">
-                                <a4j:repeat rowKeyVar="key" value="#{squadMaker.league.squads}" var="squad">
-                                    <rich:panel>
-                                        <f:facet name="header">
-				                            <h:panelGroup>
-				                                <h:outputText value="#{squad.id}" style="font-weight:bold; margin-left: 4px" />
-				                            </h:panelGroup>
-				                        </f:facet>
-			                            <h:panelGrid>
-				                            <rich:dataTable value="#{squad.players}" var="player" id="squad_#{key}_table" rowClasses="odd-row, even-row">
-                                                <rich:column>
+                        <td>
+                            <a4j:outputPanel id="buttons" layout="block" style="padding-bottom:10px;">
+                                <a4j:commandButton action="#{squadMaker.createSquads}" disabled="#{squadMaker.inputDisabled}" render="main" value="Create Squads" />
+                                <a4j:commandButton action="#{squadMaker.reset}" immediate="true" render="main,messages" style="margin-left:5px;" value="Reset" />
+                            </a4j:outputPanel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <rich:panel rendered="#{squadMaker.inputDisabled}">
+						        <f:facet name="header">
+						            <h:outputText value="Squads" />
+						        </f:facet>
+						        <rich:dataGrid value="#{squadMaker.league.squads}" var="squad" columns="3">
+					                <rich:panel>
+					                    <f:facet name="header">
+					                        <h:outputText value="#{squad.id}" />
+					                    </f:facet>
+					                    <h:panelGrid>
+                                            <rich:dataTable value="#{squad.players}" var="player" id="squad_#{key}_table" rowClasses="odd-row, even-row">
+                                                <rich:column styleClass="name-column">
                                                     <f:facet name="header">
                                                         Player
                                                     </f:facet>
@@ -126,15 +129,15 @@
                                                     </rich:columnGroup>
                                                 </f:facet>
                                             </rich:dataTable>
-				                        </h:panelGrid>
-                                    </rich:panel>
-                                </a4j:repeat>
-                            </h:panelGrid>
+                                        </h:panelGrid>
+					                </rich:panel>
+					            </rich:dataGrid>
+					        </rich:panel>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </a4j:outputPanel>
     </h:form>
-</body> 
+</h:body> 
 </html>

@@ -1,7 +1,7 @@
 package domain;
 
 /**
- * Contained list of all valid skills.
+ * Contains all valid player skills.
  */
 public enum SkillType {
 	Shooting,

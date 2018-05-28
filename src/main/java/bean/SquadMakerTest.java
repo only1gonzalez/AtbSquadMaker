@@ -18,7 +18,7 @@ public class SquadMakerTest {
 	}
 	
 	@Test
-	public void testSquadCreation() {
+	public void testSquadCreationSuccessful() {
 		SquadMaker squadMaker = new SquadMaker();
 		squadMaker.retrieveFreePlayers();
 		squadMaker.setNumberOfSquads(6);

@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 /**
  * Allows custom comparison of the Player object.
- * Specifically, it allows for Player to be sorted by their total skill rating.
+ * Specifically, it allows for Player to be sorted by their total standardized skill rating.
  */
 public class PlayerSkillComparator implements Comparator<Player> {
 

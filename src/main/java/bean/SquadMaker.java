@@ -32,17 +32,27 @@ public class SquadMaker implements Serializable {
 	private League league;
 	private Integer numberOfSquads;
 
+	/**
+	 * Initializes the screen on creation.
+	 */
 	@PostConstruct
 	public void init() {
 		retrieveFreePlayers();
 	}
 	
+	/**
+	 * [Reset] button action.
+	 */
 	public void reset() {
 		league = null;
 		numberOfSquads = null;
 		retrieveFreePlayers();
 	}
 
+	/**
+	 * Retrieves players from JSON file and imports them into the league.
+	 * If we are grabbing JSON from an API, this method would need to be updated.
+	 */
 	protected void retrieveFreePlayers() {
 		try {
 			// Take JSON file from resource and create string representation
@@ -63,12 +73,14 @@ public class SquadMaker implements Serializable {
 			e.printStackTrace();
 		}
 
+		league.standardizePlayerSkills();
+		
 		// Sort alphabetically
 		Collections.sort(league.getPlayers());
 	}
 
 	/**
-	 * [Create Squads] action.
+	 * [Create Squads] button action.
 	 * This method is called via button click, and creates and populates squads based on the number of squads selected.
 	 */
 	public void createSquads() {
@@ -91,38 +103,75 @@ public class SquadMaker implements Serializable {
 		List<Player> allPlayers = new ArrayList<Player>();
 		allPlayers.addAll(league.getPlayers());
 		
-		// Sort players by total skill
+		// Sort players by their total standardized skill
 		Collections.sort(allPlayers, new PlayerSkillComparator().reversed());
 		
-		// Perform initial population of squads
+		// Perform population of squads
 		i = 0;
+		List<Squad> squads = new ArrayList<Squad>();
+		squads.addAll(league.getSquads());
 		while (i < allPlayers.size() - numberLeftover) {
-			for (Squad squad : league.getSquads()) {
+			for (Squad squad : squads) {
 				Player player = allPlayers.get(i);
 				squad.getPlayers().add(player);
 				league.getPlayers().remove(player);
 				i++;
 			}
-			Collections.reverse(league.getSquads());
+			
+			// Swap recent additions between squads if it lowers skill difference
+			league.setSkillDifference(league.calcSkillDifference());
+			for (Squad squadA : squads) {
+				for (Squad squadB : squads) {
+					if (squadA.getId().equals(squadB.getId())) {
+						continue;
+					}
+					// If the swap results in smaller team differences, keep. Otherwise swap back.
+					swapSquadPlayer(squadA, squadB);
+					if (league.isSkillDifferenceBetter()) {
+						continue;
+					}
+					swapSquadPlayer(squadA, squadB);
+				}
+			}
 		}
-		
-		// Refine squad population
-		
-		
+
 		// Sort final squad players by name
 		for (Squad squad : league.getSquads()) {
 			Collections.sort(squad.getPlayers());
 		}
 	}
 	
+	/**
+	 * Swaps the last player from squad A with the last player from squad B.
+	 * @param squadA - Squad A
+	 * @param squadB - Squad B
+	 */
+	private void swapSquadPlayer(Squad squadA, Squad squadB) {
+		Player playerA = squadA.getPlayers().get(squadA.getPlayers().size() - 1);
+		squadA.getPlayers().remove(playerA);
+
+		Player playerB = squadB.getPlayers().get(squadB.getPlayers().size() - 1);
+		squadB.getPlayers().remove(playerB);
+		
+		squadA.getPlayers().add(playerB);
+		squadB.getPlayers().add(playerA);
+	}
+	
+	/**
+	 * The input should be disabled if squads have already been formed.
+	 * @return boolean
+	 */
 	public boolean isInputDisabled() {
-		// The input should be disabled if squads have already been formed
 		if (league.getSquads() != null && league.getSquads().size() > 0) {
 			return true;
 		}
 		return false;
 	}
 	
+	/**
+	 * Indicates that the waiting list is empty.
+	 * @return boolean
+	 */
 	public boolean isWaitingListEmpty() {
 		if (league.getPlayers() == null || league.getPlayers().size() == 0) {
 			return true;
