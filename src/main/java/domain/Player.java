@@ -1,19 +1,72 @@
 package domain;
 
-public class Player {
-	private String id;
+import java.util.List;
+
+/**
+ * Player object.
+ * Includes comparable implementation to allow default sort based on name.
+ * 
+ */
+public class Player implements Comparable<Object> {
 	private String firstName;
 	private String lastName;
-	private int shooting;
-	private int skating;
-	private int checking;
+	private List<Skill> skills;
 
-	public String getId() {
-		return id;
+	// Transient variables to reduce number of times we loop through the skills
+	private Integer shooting;
+	private Integer skating;
+	private Integer checking;
+
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
+	
+	/**
+	 * @return Shooting skill rating
+	 */
+	public Integer getShooting() {
+		if (shooting == null) {
+			shooting = getSkillRating(SkillType.Shooting);
+		}
+		return shooting;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	/**
+	 * @return Skating skill rating
+	 */
+	public Integer getSkating() {
+		if (skating == null) {
+			skating = getSkillRating(SkillType.Skating);
+		}
+		return skating;
+	}
+
+	/**
+	 * @return Checking skill rating
+	 */
+	public Integer getChecking() {
+		if (checking == null) {
+			checking = getSkillRating(SkillType.Checking);
+		}
+		return checking;
+	}
+
+	/**
+	 * Gets a player's skill rating for a given skill.
+	 * @param skillType - A Player skill
+	 * @return Integer - Skill rating
+	 */
+	public Integer getSkillRating(SkillType skillType) {
+		for (Skill skill : skills) {
+			if (skill.getType() == skillType) {
+				return skill.getRating();
+			}
+		}
+		return 0;
+	}
+
+	public Integer getTotalRating() {
+		return getShooting() + getSkating() + getChecking();
 	}
 
 	public String getFirstName() {
@@ -32,27 +85,23 @@ public class Player {
 		this.lastName = lastName;
 	}
 
-	public int getShooting() {
-		return shooting;
+	public List<Skill> getSkills() {
+		return skills;
 	}
 
-	public void setShooting(int shooting) {
-		this.shooting = shooting;
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
 	}
 
-	public int getSkating() {
-		return skating;
+	@Override
+	public String toString() {
+		return "Player{" + "firstName='" + firstName + '\'' + ", lastName=" + lastName + '}';
 	}
 
-	public void setSkating(int skating) {
-		this.skating = skating;
-	}
-
-	public int getChecking() {
-		return checking;
-	}
-
-	public void setChecking(int checking) {
-		this.checking = checking;
+	@Override
+	public int compareTo(Object o) {
+		String aFullName = firstName + lastName;
+		String bFullName = ((Player) o).getFirstName() + ((Player) o).getLastName();
+		return aFullName.compareTo(bFullName);
 	}
 }

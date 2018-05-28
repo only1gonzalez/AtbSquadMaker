@@ -1,0 +1,38 @@
+ html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 5px;
+        }
+        @font-face{
+            font-family: "Segoe UI";
+            src: url('../fonts/segoeuil.ttf');
+        }
+        .main-container {
+            height: 100%;
+            width: 100%;
+            background-color: white;
+            color: black;
+            margin: 5px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            overflow-x: hidden;
+            font-family: "Segoe UI";
+        }
+
+        .content-body{
+            min-width: 400px;
+        }
+        
+        .even-row {
+            background-color: #FCFFFE;
+        }
+ 
+        .odd-row {
+            background-color: #ECF3FE;
+        }
+        
+        .panel {
+            border: 1px solid #BED6F8;
+            border-radius: 5px;
+        }

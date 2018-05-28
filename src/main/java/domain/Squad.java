@@ -1,33 +1,53 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Squad object.
+ * Contains a list of all players assigned to a squad, along with methods for grabbing squad-wide skill averages.
+ */
 public class Squad {
 	private String id;
-	private List<Player> players;
+	private List<Player> players = new ArrayList<Player>();
 
-	public double averageShooting() {
-		double total = 0;
-		for (Player player : players) {
-			total += player.getShooting();
-		}
-		return total/players.size();
+	public Squad(String id) {
+		this.id = id;
 	}
 	
-	public double averageSkating() {
-		double total = 0;
-		for (Player player : players) {
-			total += player.getSkating();
-		}
-		return total/players.size();
+	public Integer getAverageShooting() {
+		return skillAverage(SkillType.Shooting);
 	}
 	
-	public double averageChecking() {
-		double total = 0;
+	public Integer getAverageSkating() {
+		return skillAverage(SkillType.Skating);
+	}
+	
+	public Integer getAverageChecking() {
+		return skillAverage(SkillType.Checking);
+	}
+	
+	/**
+	 * Determines the squad-wide average for a given skill.
+	 * @param skillType - A Player skill
+	 * @return Integer - Average rating
+	 */
+	public Integer skillAverage(SkillType skillType) {
+		Integer total = 0;
 		for (Player player : players) {
-			total += player.getChecking();
+			switch (skillType) {
+				case Shooting:
+					total += player.getShooting();
+					break;
+				case Skating:
+					total += player.getSkating();
+					break;
+				case Checking:
+					total += player.getChecking();
+					break;
+			}
 		}
-		return total/players.size();
+		return total / players.size();
 	}
 	
 	public String getId() {

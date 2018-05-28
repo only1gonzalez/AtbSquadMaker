@@ -1,19 +1,15 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * League object.
+ * Used to store created Squads as well as the waitlist of Players.
+ */
 public class League {
-	private String id;
-	private List<Squad> squads;
-	private List<Player> waitlist;
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	private List<Squad> squads = new ArrayList<Squad>();
+	private List<Player> players;
 
 	public List<Squad> getSquads() {
 		return squads;
@@ -23,11 +19,11 @@ public class League {
 		this.squads = squads;
 	}
 
-	public List<Player> getWaitlist() {
-		return waitlist;
+	public List<Player> getPlayers() {
+		return players;
 	}
 
-	public void setWaitlist(List<Player> waitlist) {
-		this.waitlist = waitlist;
+	public void setPlayers(List<Player> players) {
+		this.players = players;
 	}
 }
