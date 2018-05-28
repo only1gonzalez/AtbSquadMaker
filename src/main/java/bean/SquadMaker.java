@@ -84,9 +84,16 @@ public class SquadMaker implements Serializable {
 	 * This method is called via button click, and creates and populates squads based on the number of squads selected.
 	 */
 	public void createSquads() {
+
+		// Ensure the number of squads does not exceed the number of players
 		int numberOfPlayers = league.getPlayers().size();
-		int playersPerTeam = numberOfPlayers / numberOfSquads;
-		int numberLeftover = numberOfPlayers - (playersPerTeam * numberOfSquads);
+		int actualNumberOfSquads = numberOfSquads;
+		if(numberOfSquads > numberOfPlayers) {
+			actualNumberOfSquads = numberOfPlayers;
+		}
+		
+		int playersPerTeam = numberOfPlayers / actualNumberOfSquads;
+		int numberLeftover = numberOfPlayers - (playersPerTeam * actualNumberOfSquads);
 		
 		if (numberLeftover < 0) {
 			numberLeftover = 0;
@@ -94,7 +101,7 @@ public class SquadMaker implements Serializable {
 
 		// Create all squads (for now empty)
 		int i = 1;
-		while (i <= numberOfSquads && i <= numberOfPlayers) {
+		while (i <= actualNumberOfSquads) {
 			league.getSquads().add(new Squad("Squad " + i));
 			i++;
 		}
